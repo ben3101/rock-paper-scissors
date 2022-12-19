@@ -1,0 +1,24 @@
+body{
+    margin: 0 10%;
+    background-color: rgb(202, 147, 43);
+    color: aqua;
+}
+
+body p{
+    color: cyan;
+    
+}
+.main{
+    margin-bottom:10%;
+}
+h2{
+    text-decoration-line: underline;
+}
+
+.results p{
+    border: solid orange;
+}
+
+#play-again-btn{
+    visibility: hidden;
+}

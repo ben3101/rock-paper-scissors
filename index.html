@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"/>
     <script src="javascript.js"></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <h1></h1>
+    <div class="main" id="main">
+    <h1>Rock Paper Scissors Game (5 rounds)</h1>
+    <p>Pick an option below to play a round</p>
+    <button onclick="playRound('rock', getComputerChoice())">Rock</button>
+    <button onclick="playRound('paper', getComputerChoice())">Paper</button>
+    <button onclick="playRound('scissors', getComputerChoice())">Scissors</button>
+    </div>
+    <div class="results">
+        <h2>Results</h2>
+        
+
+        
+    </div>
+    <button id="play-again-btn">Play Again</button>
 </body>
 </html>

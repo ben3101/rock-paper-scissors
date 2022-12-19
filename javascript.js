@@ -1,5 +1,12 @@
 console.log("Hello!");
 
+let playerWins = 0;
+let computerWins = 0;
+let draws = 0;
+let roundNum = 1;
+let maxRounds = 5;
+let displayed;
+
 function getComputerChoice(){
     let choice = "";
     let randNum = Math.floor(Math.random() * 3);
@@ -17,29 +24,91 @@ function getComputerChoice(){
     return choice;
 }
 
+//takes player choice and computer choice
+//determines the result and displays it
+//if max rounds, display final result plus play again option
 function playRound(playerSelection, computerSelection){
     let player = playerSelection.toLowerCase();
     let computer = computerSelection.toLowerCase();
     let result = "";
-    //draw condition
-    if(player === computer){
-        result = `It's a draw! ${player} and ${computer}`;
+    let finalResultsText = "";
+    if(roundNum<=maxRounds){
+        //draw condition
+        if(player === computer){
+            result = `It's a draw! ${player} and ${computer}`;
+            draws++;
+        }
+        //win conditions
+        else if((player === "rock" && computer === "scissors") 
+        || (player === "scissors" && computer === "paper")
+        || (player === "paper" && computer === "rock")){
+            result = `Player wins! ${player} beats ${computer}`;
+            playerWins++;
+        }
+        //otherwise it's a loss
+        else if((computer === "rock" && player === "scissors") 
+        || (computer === "scissors" && player === "paper")
+        || (computer === "paper" && player === "rock")){
+            result = `Computer wins! ${computer} beats ${player}`;
+            computerWins++;
+        }else{result = `an error occured when player is ${player} and computer is ${computer}`}
+
+
+        //while round num is less than max number of rounds:
+        
+            //print the results into the paragraph on the DOM:
+            let resultsDiv = document.querySelector('div.results');
+            //resultsDisplay = document.querySelector('p#resultsP');
+            let resultText = `Round ${roundNum} (Player: ${player} vs Computer: ${computer}): ${result}`;
+
+            let resultsP = document.createElement('p');
+            let node = document.createTextNode(resultText);
+            resultsP.append(node);
+
+            resultsDiv.appendChild(resultsP);
+
+            //increment roundNum
+            roundNum++
     }
-    //win conditions
-    else if((player === "rock" && computer === "scissors") 
-    || (player === "scissors" && computer === "paper")
-    || (player === "paper" && computer === "rock")){
-        result = `Player wins! ${player} beats ${computer}`;
+    //display final results:
+    //if the game is over and final result has not already been displayed
+    if(!(roundNum<=maxRounds) && !displayed){
+        let comment = "";
+        if(playerWins > computerWins){
+            //if player won more, congratulate
+            comment = "You won the most! Congratulations!";
+        }else if(playerWins < computerWins){
+            //computer won more, better luck next time
+            comment = "The computer beat you more. Better luck next time!";
+        }
+        //after max rounds done, display final results
+        let resultsDiv = document.querySelector('div.results');
+        let finalResultText = `
+        
+        That was the last round! Final results:
+        Player Wins: ${playerWins}
+        Computer Wins: ${computerWins}
+        Draws: ${draws}
+        
+        ${comment}`;
+
+        let finalResultsP = document.createElement('p');
+        let node = document.createTextNode(finalResultText);
+        finalResultsP.append(node);
+        //set play again button code and display it
+        let playAgainBtn = document.getElementById('play-again-btn');
+        playAgainBtn.addEventListener('click', () => {
+            window.location.reload();
+        });
+
+        resultsDiv.appendChild(finalResultsP);
+        playAgainBtn.style.visibility="visible";
+        displayed = true;
     }
-    //otherwise it's a loss
-    else if((computer === "rock" && player === "scissors") 
-    || (computer === "scissors" && player === "paper")
-    || (computer === "paper" && player === "rock")){
-        result = `Computer wins! ${computer} beats ${player}`;
-    }else{result = `an error occured when player is ${player} and computer is ${computer}`}
-    return result;
 }
 
+//old code
+/*
 //get user input each round
 function userInput(roundNum){
     let choice = (prompt(`Round ${roundNum}) Enter a choice for this round. Select either Rock, Paper, or Scissors.`)).toLowerCase();
@@ -54,7 +123,8 @@ function userInput(roundNum){
     }
     return choice;
 }
-
+*/
+/*
 function game(numGames){
     let playerWins = 0;
     let computerWins = 0;
@@ -84,6 +154,7 @@ function game(numGames){
     - ${computerWins} Computer wins
     - ${draws} Draws`);
 }
+*/
 
 //code for a loop if wanted instead of refreshing page every time to start again
 /*
@@ -96,8 +167,10 @@ while(answer !=="exit"){
     }
 }*/
 
+/*
 //prompt user to start playing
 let games = prompt("Welcome to my JavaScript Rock, Paper, Scissors game! Enter how many rounds you would like to play");
 if(games !== ""){
     game(games);
 }
+*/
